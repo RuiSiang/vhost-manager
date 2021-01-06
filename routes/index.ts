@@ -10,7 +10,9 @@ const config: {
   authKey: string
   configPath: string
   domainSuffix: string
-} = JSON.parse(fs.readFileSync('config.json').toString())
+} = JSON.parse(fs.readFileSync('./config.json').toString())
+console.log('Using configuration:')
+console.log(JSON.stringify(config))
 
 router.get(
   `/${config.authKey}`,

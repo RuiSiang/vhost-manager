@@ -24,7 +24,7 @@ nano config.json
 
 Start vhost manager
 ```
-npm build
+npm run build
 npm start
 ```
 
