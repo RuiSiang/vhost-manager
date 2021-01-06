@@ -1,0 +1,5 @@
+{
+  "authKey": "your-secret-api-authkey",
+  "domainSuffix": ".example.com",
+  "configPath": "/etc/nginx/sites-enabled/subdomains"
+}

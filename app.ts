@@ -6,7 +6,6 @@ import bodyparser from "koa-bodyparser";
 import logger from "koa-logger";
 
 import index from "./routes/index";
-import users from "./routes/users";
 
 // middlewares
 app.use(
@@ -16,7 +15,6 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(require("koa-static")(__dirname + "/public"));
 
 app.use(
   views(__dirname + "/views", {
@@ -34,7 +32,6 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes());
-app.use(users.routes());
 
 // error-handling
 app.on("error", (err, ctx) => {
