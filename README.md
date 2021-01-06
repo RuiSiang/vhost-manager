@@ -6,6 +6,10 @@ Install nginx on your machine
 ```
 apt-get install nginx
 ```
+Add extra nginx config
+```
+touch /etc/nginx/sites-enabled/subdomain
+```
 
 Install node modules
 ```
