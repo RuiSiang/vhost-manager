@@ -3,7 +3,7 @@ import Debug from "debug";
 import http from "http";
 const debug = Debug("demo:server");
 
-let port: number = parseInt(process.env.PORT || "80");
+let port: number = parseInt(process.env.PORT || "3000");
 let server: http.Server = http.createServer(app.callback());
 
 server.listen(port);
