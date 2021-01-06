@@ -33,20 +33,20 @@ npm start
 ```
 
 ## API Documentation
-GET '/your-authkey' : get vhost entry list
+GET '/?token=your-secret-api-token' : get vhost entry list
 
-POST '/your-authkey/new' : add vhost entry
+POST '/new?token=your-secret-api-token' : add vhost entry
 ```
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"ip":"127.0.0.1", "subdomain":"test", "ports":[80, 90, 100]}' \
-  http://localhost:3000/your-secret-api-authkey/new
+  http://localhost:3000/new?token=your-secret-api-token
 ```
 
-POST '/your-authkey/delete' : delete vhost entry
+POST '/delete?token=your-secret-api-token' : delete vhost entry
 ```
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"subdomain":"test"}' \
-  http://localhost:3000/your-secret-api-authkey/delete
+  http://localhost:3000/delete?token=your-secret-api-token
 ```

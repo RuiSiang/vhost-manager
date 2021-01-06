@@ -7,16 +7,15 @@ let nginxParser = new ConfigParser()
 
 const router = new Router()
 const config: {
-  authKey: string
+  apiToken: string
   configPath: string
   domainSuffix: string
 } = JSON.parse(fs.readFileSync('./config.json').toString())
 console.log('Using configuration:')
 console.log(JSON.stringify(config))
 
-router.get(
-  `/${config.authKey}`,
-  async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
+router.get('/', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
+  if (ctx.query.token == config.apiToken) {
     let configData = nginxParser.readConfigFile(config.configPath)
     if (!configData.server) {
       configData.server = []
@@ -26,11 +25,10 @@ router.get(
     }
     await ctx.render('index', configData)
   }
-)
+})
 
-router.post(
-  `/${config.authKey}/new`,
-  async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
+router.post('/new', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
+  if (ctx.query.token == config.apiToken) {
     let configData = nginxParser.readConfigFile(config.configPath)
     if (!configData.server) {
       configData.server = []
@@ -57,34 +55,36 @@ router.post(
       ctx.status = 200
     }
   }
-)
+})
 
 router.post(
-  `/${config.authKey}/delete`,
+  '/delete',
   async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
-    let configData = nginxParser.readConfigFile(config.configPath)
-    if (!configData.server) {
-      configData.server = []
-    } else if (!!configData.server.server_name) {
-      const tmpConfigData = configData.server
-      configData.server = [tmpConfigData]
-    }
-    for (let i = 0; i < configData.server.length; i++) {
-      if (
-        configData.server[i].server_name ==
-        `${ctx.request.body.subdomain}${config.domainSuffix}`
-      ) {
-        configData.server.splice(i, 1)
-        break
+    if (ctx.query.token == config.apiToken) {
+      let configData = nginxParser.readConfigFile(config.configPath)
+      if (!configData.server) {
+        configData.server = []
+      } else if (!!configData.server.server_name) {
+        const tmpConfigData = configData.server
+        configData.server = [tmpConfigData]
       }
-    }
-    try {
-      nginxParser.writeConfigFile(config.configPath, configData, true)
-    } catch (err) {
-      ctx.status = 500
-    } finally {
-      cmd.run('nginx -s reload')
-      ctx.status = 200
+      for (let i = 0; i < configData.server.length; i++) {
+        if (
+          configData.server[i].server_name ==
+          `${ctx.request.body.subdomain}${config.domainSuffix}`
+        ) {
+          configData.server.splice(i, 1)
+          break
+        }
+      }
+      try {
+        nginxParser.writeConfigFile(config.configPath, configData, true)
+      } catch (err) {
+        ctx.status = 500
+      } finally {
+        cmd.run('nginx -s reload')
+        ctx.status = 200
+      }
     }
   }
 )
