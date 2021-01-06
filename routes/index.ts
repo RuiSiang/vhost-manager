@@ -37,17 +37,16 @@ router.post(
     } else if (!!configData.server.server_name) {
       const tmpConfigData = configData.server
       configData.server = [tmpConfigData]
-    } else {
-      configData.server.push({
-        listen: ctx.request.body.ports,
-        server_name: `${ctx.request.body.subdomain}${config.domainSuffix}`,
-        'location /': {
-          autoindex: 'off',
-          proxy_set_header: ['X-Forwarded-For $remote_addr', 'Host $http_host'],
-          proxy_pass: `http://${ctx.request.body.ip}:$server_port`,
-        },
-      })
     }
+    configData.server.push({
+      listen: ctx.request.body.ports,
+      server_name: `${ctx.request.body.subdomain}${config.domainSuffix}`,
+      'location /': {
+        autoindex: 'off',
+        proxy_set_header: ['X-Forwarded-For $remote_addr', 'Host $http_host'],
+        proxy_pass: `http://${ctx.request.body.ip}:$server_port`,
+      },
+    })
 
     try {
       nginxParser.writeConfigFile(config.configPath, configData, true)
