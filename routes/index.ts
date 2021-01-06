@@ -16,7 +16,13 @@ router.get(
   `/${config.authKey}`,
   async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
     let configData = nginxParser.readConfigFile(config.configPath)
-    await ctx.render('index')
+    if (!configData.server) {
+      configData.server = []
+    } else if (!!configData.server.server_name) {
+      const tmpConfigData = configData.server
+      configData.server = [tmpConfigData]
+    }
+    await ctx.render('index', configData)
   }
 )
 

@@ -3,4 +3,12 @@ html
   head
     title vHost Manager
   body
-    | Connection Test Successful
+    h1 vHost Manager
+    each val, index in server
+      h3 vHost#{index}
+      |Server Name: #{val.server_name}
+      br
+      |Proxy Pass: #{val['location /'].proxy_pass}
+      br
+      |Listen Ports: #{val.listen}
+
