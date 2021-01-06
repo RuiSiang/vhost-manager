@@ -8,7 +8,7 @@ apt-get install nginx
 ```
 Add extra nginx config
 ```
-touch /etc/nginx/sites-enabled/subdomain
+touch /etc/nginx/sites-enabled/subdomains
 ```
 
 Install node modules
