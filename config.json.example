@@ -1,5 +1,5 @@
 {
   "apiToken": "your-secret-api-token",
   "domainSuffix": ".example.com",
-  "configPath": "/etc/nginx/sites-enabled/subdomains"
+  "configPath": "/etc/nginx/sites-enabled"
 }

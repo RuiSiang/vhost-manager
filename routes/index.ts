@@ -16,7 +16,7 @@ console.log(JSON.stringify(config))
 
 router.get('/', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
   if (ctx.query.token == config.apiToken) {
-    let configData = nginxParser.readConfigFile(config.configPath)
+    let configData = nginxParser.readConfigFile(`${config.configPath}/subdomains`)
     if (!configData.server) {
       configData.server = []
     } else if (!!configData.server.server_name) {
@@ -29,7 +29,7 @@ router.get('/', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
 
 router.post('/new', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
   if (ctx.query.token == config.apiToken) {
-    let configData = nginxParser.readConfigFile(config.configPath)
+    let configData = nginxParser.readConfigFile(`${config.configPath}/subdomains`)
     if (!configData.server) {
       configData.server = []
     } else if (!!configData.server.server_name) {
@@ -47,7 +47,7 @@ router.post('/new', async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
     })
 
     try {
-      nginxParser.writeConfigFile(config.configPath, configData, true)
+      nginxParser.writeConfigFile(`${config.configPath}/subdomains`, configData, true)
     } catch (err) {
       ctx.status = 500
     } finally {
@@ -61,7 +61,7 @@ router.post(
   '/delete',
   async (ctx: Koa.ParameterizedContext, next: Koa.Next) => {
     if (ctx.query.token == config.apiToken) {
-      let configData = nginxParser.readConfigFile(config.configPath)
+      let configData = nginxParser.readConfigFile(`${config.configPath}/subdomains`)
       if (!configData.server) {
         configData.server = []
       } else if (!!configData.server.server_name) {
@@ -78,7 +78,7 @@ router.post(
         }
       }
       try {
-        nginxParser.writeConfigFile(config.configPath, configData, true)
+        nginxParser.writeConfigFile(`${config.configPath}/subdomains`, configData, true)
       } catch (err) {
         ctx.status = 500
       } finally {
