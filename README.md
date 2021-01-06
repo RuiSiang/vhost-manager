@@ -1,5 +1,5 @@
 # vhost manager
-vhost manager for nginx
+restful api virtual host manager for nginx
 
 ## Getting Started
 Option1: run script
