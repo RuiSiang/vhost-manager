@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/bin/server.ts",
+    "start": "node dist/bin/server.js",
     "dev": "./node_modules/.bin/nodemon -e ts,tsx --exec ts-node bin/server.ts",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "build": "tsc"
+    "build": "tsc&&cp config.json dist/config.json"
   },
   "dependencies": {
     "@types/debug": "^4.1.5",
